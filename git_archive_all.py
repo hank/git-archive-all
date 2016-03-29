@@ -328,7 +328,7 @@ class GitArchiver(object):
                     m = re.match("^\s*path\s*=\s*(.*)\s*$", line)
                     if m:
                         submodule_path = m.group(1)
-                        submodule_path = path.join(repo_path, submodule_path)
+                        submodule_path = os.path.normcase(path.join(repo_path, submodule_path))
                         for file_path in self.walk_git_files(submodule_path):
                             yield file_path
 
