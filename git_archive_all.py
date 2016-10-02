@@ -27,7 +27,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import logging
-from os import extsep, path, readlink, curdir
+from os import extsep, path, curdir
 from subprocess import CalledProcessError, Popen, PIPE
 import sys
 import tarfile
@@ -127,13 +127,7 @@ class GitArchiver(object):
                 archive = ZipFile(path.abspath(output_path), 'w')
 
                 def add_file(file_path, arcname):
-                    if not path.islink(file_path):
-                        archive.write(file_path, arcname, ZIP_DEFLATED)
-                    else:
-                        i = ZipInfo(arcname)
-                        i.create_system = 3
-                        i.external_attr = 0xA1ED0000
-                        archive.writestr(i, readlink(file_path))
+                    archive.write(file_path, arcname, ZIP_DEFLATED)
             elif output_format in ['tar', 'bz2', 'gz', 'xz', 'tgz', 'txz']:
                 if output_format == 'tar':
                     t_mode = 'w'
