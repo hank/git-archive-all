@@ -499,6 +499,10 @@ def main():
                       dest='dry_run',
                       help="don't actually archive anything, just show what would be done")
 
+    parser.add_option('--format',
+                      help="Use a specified archive format (eg. zip).  Optional, will use zip if omitted.",
+                      default=None)
+
     options, args = parser.parse_args()
 
     if len(args) != 1:
@@ -532,7 +536,7 @@ def main():
                                options.exclude,
                                options.force_sub,
                                options.extra)
-        archiver.create(output_file_path, options.dry_run)
+        archiver.create(output_file_path, options.dry_run, output_format=options.format)
     except Exception as e:
         parser.exit(2, "{0}\n".format(e))
 
